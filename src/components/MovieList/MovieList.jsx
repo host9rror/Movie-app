@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import css from './MovieList.module.css';
 import PropTypes from 'prop-types';
-import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 
 const MovieList = ({ movies }) => {
   const location = useLocation();
@@ -11,8 +10,7 @@ const MovieList = ({ movies }) => {
   }
 
   const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w200';
-
-  if (movies.length > 0) {
+    
     return (
       <div className={css.movieList}>
         {movies.map(movie => (
@@ -29,9 +27,7 @@ const MovieList = ({ movies }) => {
         ))}
       </div>
     );
-  } else {
-    return <NotFoundPage />;
-  }
+  
 };
 
 MovieList.propTypes = {
