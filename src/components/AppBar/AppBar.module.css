@@ -1,0 +1,14 @@
+.nav {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.navLink {
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
