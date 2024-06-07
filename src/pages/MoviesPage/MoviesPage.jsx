@@ -11,12 +11,12 @@ const MoviesPage = () => {
 
   const handleSearch = useCallback(async (searchQuery) => {
     try {
-      const results = await searchMovies(searchQuery || query);
+      const results = await searchMovies(searchQuery);
       setSearchResults(results);
     } catch (error) {
       console.error('Failed to search movies:', error);
     }
-  }, [query]);
+  }, []);
 
   useEffect(() => {
     const savedQuery = searchParams.get('query');
@@ -29,7 +29,6 @@ const MoviesPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSearchParams({ query });
-    handleSearch(query);
   };
 
   return (
