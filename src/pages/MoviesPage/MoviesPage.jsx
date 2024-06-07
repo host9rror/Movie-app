@@ -1,35 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { searchMovies } from "../../movieApi";
 import MovieList from "../../components/MovieList/MovieList";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import css from './MoviesPage.module.css';
 
 const MoviesPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [query, setQuery] = useState('');
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const savedQuery = new URLSearchParams(location.search).get('query');
-    if (savedQuery) {
-      setQuery(savedQuery);
-      handleSearch(savedQuery);
-    }
-  }, [location.search]);
-
-  const handleSearch = async (searchQuery) => {
+  const handleSearch = useCallback(async (searchQuery) => {
     try {
       const results = await searchMovies(searchQuery || query);
       setSearchResults(results);
     } catch (error) {
       console.error('Failed to search movies:', error);
     }
-  };
+  }, [query]);
+
+  useEffect(() => {
+    const savedQuery = searchParams.get('query');
+    if (savedQuery) {
+      setQuery(savedQuery);
+      handleSearch(savedQuery);
+    }
+  }, [searchParams, handleSearch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/movies?query=${query}`, { state: { query, searchResults } });
+    setSearchParams({ query });
     handleSearch(query);
   };
 

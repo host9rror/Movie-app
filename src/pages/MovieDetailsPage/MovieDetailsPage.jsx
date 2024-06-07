@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovieDetails, fetchMovieCast, fetchMovieReviews } from '../../movieApi'; 
 import BackLink from '../../components/BackLink/BackLink';
@@ -10,6 +10,7 @@ const MovieDetailsPage = () => {
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
   const location = useLocation();
+  const prevLocation = useRef(location.state)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,8 +35,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className={css.container}>
-      <BackLink className={css.gaBackBtn} to={location.state?.from ?? '/movies'}>Go back</BackLink>
-      
+      <BackLink className={css.gaBackBtn} to={prevLocation.current?.from ?? '/movies'}>Go back</BackLink> 
       {movie && (
         <div>
           <h1>{movie.title}</h1>
